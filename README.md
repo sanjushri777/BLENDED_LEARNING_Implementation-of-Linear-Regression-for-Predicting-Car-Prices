@@ -80,6 +80,7 @@ plt.title('Residuals vs Predicted Prices')
 plt.axhline(0, color='red', linestyle='--')
 plt.show()
 ```
+```
 
 ## Output:
 ![alt text](<Screenshot (864).png>)
