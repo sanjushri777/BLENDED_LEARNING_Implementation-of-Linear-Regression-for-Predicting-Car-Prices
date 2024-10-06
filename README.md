@@ -83,8 +83,10 @@ plt.show()
 
 
 ## Output:
-![alt text](<Screenshot (864).png>)
-![alt text](<Screenshot (862).png>)
+![Screenshot](https://github.com/user-attachments/assets/208a62f4-e87e-4ee6-a944-0f142e555c53)
+
+
+![SS](https://github.com/user-attachments/assets/99861e71-d3a1-4163-b438-6c7f4b7a11c7)
 
 
 
