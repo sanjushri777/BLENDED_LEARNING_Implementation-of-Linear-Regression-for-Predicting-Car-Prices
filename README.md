@@ -34,7 +34,7 @@ To write a program to predict car prices using a linear regression model and tes
 Developed by: SANJUSHRI A
 RegisterNumber:  212223040187
 */
-```
+
 # Import necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -80,7 +80,7 @@ plt.title('Residuals vs Predicted Prices')
 plt.axhline(0, color='red', linestyle='--')
 plt.show()
 ```
-```
+
 
 ## Output:
 ![alt text](<Screenshot (864).png>)
