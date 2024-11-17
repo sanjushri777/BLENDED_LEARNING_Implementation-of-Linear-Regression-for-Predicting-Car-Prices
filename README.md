@@ -36,16 +36,21 @@ RegisterNumber:  212223040187
 */
 
 # Import necessary libraries
+# Import necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from scipy.stats import shapiro
+import numpy as np
 
-# Load the dataset from the URL
-data = pd.read_csv("https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML240EN-SkillsNetwork/labs/data/CarPrice_Assignment.csv")
+# Load the dataset from the file path
+data = pd.read_csv(r"C:\Users\admin\Downloads\CarPrice_Assignment (1).csv")
 
 # Display the first few rows of the dataset
+print("First few rows of the dataset:")
 print(data.head())
 
 # Data Preprocessing
@@ -72,21 +77,71 @@ print("Mean Absolute Error:", mean_absolute_error(y_test, y_pred))
 print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
 print("R² Score:", r2_score(y_test, y_pred))
 
-# Check model assumptions
-plt.scatter(y_pred, y_test - y_pred)
+# Assumption 1: Linearity
+# Check residuals vs predicted values for linearity
+plt.scatter(y_pred, y_test - y_pred, alpha=0.7)
+plt.axhline(0, color='red', linestyle='--')
+plt.title('Residuals vs Predicted Values (Linearity Check)')
 plt.xlabel('Predicted Prices')
 plt.ylabel('Residuals')
-plt.title('Residuals vs Predicted Prices')
-plt.axhline(0, color='red', linestyle='--')
 plt.show()
+
+# Assumption 2: Homoscedasticity
+# Homoscedasticity means the residuals should have constant variance.
+plt.scatter(y_pred, y_test - y_pred, alpha=0.7)
+plt.axhline(0, color='red', linestyle='--')
+plt.title('Homoscedasticity Check')
+plt.xlabel('Predicted Prices')
+plt.ylabel('Residuals')
+plt.show()
+
+# Assumption 3: Normality
+# Use the Shapiro-Wilk test for normality of residuals
+residuals = y_test - y_pred
+stat, p_value = shapiro(residuals)
+print("Shapiro-Wilk Test:")
+print(f"Statistic: {stat}, P-value: {p_value}")
+if p_value > 0.05:
+    print("Residuals are normally distributed.")
+else:
+    print("Residuals are not normally distributed.")
+
+# Assumption 4: Multicollinearity
+# Check Variance Inflation Factor (VIF)
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tools.tools import add_constant
+
+X_with_const = add_constant(X)  # Add a constant column for VIF calculation
+vif_data = pd.DataFrame({
+    "Feature": X_with_const.columns,
+    "VIF": [variance_inflation_factor(X_with_const.values, i) for i in range(X_with_const.shape[1])]
+})
+print("\nVariance Inflation Factor (VIF):")
+print(vif_data)
+
+# Plotting Residual Distribution for Normality
+sns.histplot(residuals, kde=True, bins=30, color='blue')
+plt.title('Distribution of Residuals')
+plt.xlabel('Residuals')
+plt.ylabel('Frequency')
+plt.show()
+
 ```
 
 
 ## Output:
-![Screenshot](https://github.com/user-attachments/assets/208a62f4-e87e-4ee6-a944-0f142e555c53)
+
+![image](https://github.com/user-attachments/assets/8bdd87b5-648b-40ef-b80f-0ba3b0e7b8a6)
+
+![image](https://github.com/user-attachments/assets/e2bbb19f-7acc-4c91-ab66-fbfd4f1e2cba)
+
+![image](https://github.com/user-attachments/assets/d93524d6-5d47-4e6b-9652-142af5959fcd)
+
+![image](https://github.com/user-attachments/assets/cf12df94-957c-45a8-b6e3-c1f6c8aea59b)
+
+![image](https://github.com/user-attachments/assets/2a2bb44a-4f0a-4614-ae54-58cd692e85a8)
 
 
-![SS](https://github.com/user-attachments/assets/99861e71-d3a1-4163-b438-6c7f4b7a11c7)
 
 
 
